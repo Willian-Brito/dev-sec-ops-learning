@@ -18,12 +18,12 @@ jobs:
 
       - name: SAST - Horusec Run 🐞
         run: |
-          curl -sL https://raw.githubusercontent.com/0xtiago/opensource-devsecops/main/tools/horusec/horusec_docker_linux.sh| bash
+          curl -sL https://raw.githubusercontent.com/Willian-Brito/dev-sec-ops-learning/refs/heads/main/tools/horusec/horusec_docker_linux.sh| bash
 
       - name: SAST - Horusec Report Generation 📊
         run: |
           cd reports
-          curl -sL https://raw.githubusercontent.com/0xtiago/opensource-devsecops/main/tools/horusec/horusec_json2md/horusec_json2md.py  -o horusec_json2md.py 
+          curl -sL https://raw.githubusercontent.com/Willian-Brito/dev-sec-ops-learning/refs/heads/main/tools/horusec/horusec_json2md/horusec_json2md.py  -o horusec_json2md.py 
           python3 horusec_json2md.py horusec_report.json horusec_report.md
 
       - name: SAST - Horusec Upload Report Artifact 💾
