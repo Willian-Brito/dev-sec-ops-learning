@@ -13,23 +13,23 @@ report_type="json"
 report_directory="reports"
 report_file="horusec_report.json"
 ignore="**/tmp/**,
-	      **/.vscode/**,\
-				**/.venv/**, \
-				**/.env/**, \
-				**/tests/**, \
-				**/test/**, \
-				**/test/, \
-				**/*.Tests/**, \
-				**/*.Test/**, \
-				**/test_*, \
-				**/appsettings.*.json, \
-				**/bin/Debug/*/appsettings.*.json, \
-				**/*.yml, \
-				**/bin/Debug/*/appsettings.json, \
-				**/*.sarif"
+	**/.vscode/**,\
+	**/.venv/**, \
+	**/.env/**, \
+	**/tests/**, \
+	**/test/**, \
+	**/test/, \
+	**/*.Tests/**, \
+	**/*.Test/**, \
+	**/test_*, \
+	**/appsettings.*.json, \
+	**/bin/Debug/*/appsettings.*.json, \
+	**/*.yml, \
+	**/bin/Debug/*/appsettings.json, \
+	**/*.sarif"
 
 
-#CRIA PASTA DE RELATÓRIO
+echo "Creating report folder..."
 if [ ! -d $report_directory ]
 then
      mkdir $report_directory 
@@ -37,15 +37,19 @@ else
      echo "Diretorio já existe."
 fi
 
-# EXECUTA CONTAINER DO HORUSEC REMOVENDO-O AO FIM DA EXECUÇÃO
+echo "Pulling Horusec image..."
 docker pull $image
+
+
+# EXECUTA CONTAINER DO HORUSEC REMOVENDO-O AO FIM DA EXECUÇÃO
+echo "Running Horusec..."
 docker run --rm \
-	-v /var/run/docker.sock:/var/run/docker.sock \
 	-v $(pwd):/src/horusec $image horusec start \
 	-p /src/horusec -P $(pwd) \
 	-s=$severity_exception \
 	--ignore=$ignore \
 	--information-severity=true \
 	-o="$report_type" \
-	-O="/src/horusec/$report_directory/$report_file"
+	-O="/src/horusec/$report_directory/$report_file" \
+	-D
 	
